@@ -1,6 +1,8 @@
 <?php
+// untuk mengkoneksikan ke database
 include("./connection.php");
 
+// untuk mengambil dari seluruh data database tabel kampus
 function get_kampus()
 {
   global $connection;
@@ -14,6 +16,7 @@ function get_kampus()
   echo json_encode($response);
 }
 
+// untuk mengambil dari seluruh data database tabel kampus berdasarkan id
 function get_kampusById($id = 0)
 {
   global $connection;
@@ -30,6 +33,7 @@ function get_kampusById($id = 0)
   echo json_encode($response);
 }
 
+// untuk menambahkan data ke dalam database
 function insert_kampus()
 {
   global $connection;
@@ -40,7 +44,7 @@ function insert_kampus()
   echo $query = "INSERT INTO tb_kampus SET 
      nama_kampus='" . $nama_kampus . "', 
      daerah='" . $daerah_kampus . "', 
-    jumlah_mahasiswa='" . $jumlah_mahasiswa . "'";
+     jumlah_mahasiswa='" . $jumlah_mahasiswa . "'";
   if (mysqli_query($connection, $query)) {
     $response = array(
       'status' => 1,
@@ -56,6 +60,7 @@ function insert_kampus()
   echo json_encode($response);
 }
 
+// untuk memperbarui suatu data yang ada di dalam database berdasarkan id
 function update_kampus($id)
 {
   global $connection;
@@ -81,6 +86,7 @@ function update_kampus($id)
   echo json_encode($response);
 }
 
+// untuk menghapus data dari database berdasarkan id
 function delete_kampus($id)
 {
   global $connection;
@@ -100,11 +106,13 @@ function delete_kampus($id)
   echo json_encode($response);
 }
 
-
+// untuk mengkoneksikan database dengan thunder client
 $db = new dbObject();
 $connection = $db->getConnstring();
 $request_method = $_SERVER["REQUEST_METHOD"];
 switch ($request_method) {
+
+    // untuk mengkonfigurasikan fungsi get yang ada di thunder client dengan database berdasarkan fungsi yang telah dibuat diatas
   case 'GET':
     // Retrive Products
     if (!empty($_GET["id"])) {
@@ -114,20 +122,27 @@ switch ($request_method) {
       get_kampus();
     }
     break;
+
+    // untuk mengkonfigurasikan fungsi post yang ada di thunder client dengan database berdasarkan fungsi yang telah dibuat diatas
   case 'POST':
     // Insert Product
     insert_kampus();
     break;
+
+    // untuk mengkonfigurasikan fungsi put yang ada di thunder client dengan database berdasarkan fungsi yang telah dibuat diatas
   case 'PUT':
     // Update Product
     $id = intval($_GET["id"]);
     update_kampus($id);
     break;
+
+    // untuk mengkonfigurasikan fungsi delete yang ada di thunder client dengan database berdasarkan fungsi yang telah dibuat diatas
   case 'DELETE':
     // Delete Product
     $id = intval($_GET["id"]);
     delete_kampus($id);
     break;
+
   default:
     // Invalid Request Method
     header("HTTP/1.0 405 Method Not Allowed");

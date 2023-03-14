@@ -1,6 +1,8 @@
 <?php
+// membuat suatu objek
 class dbObject
 {
+  // variabel untuk menghubungkan ke database
   var $servername = "localhost";
   var $username = "root";
   var $password = "";
